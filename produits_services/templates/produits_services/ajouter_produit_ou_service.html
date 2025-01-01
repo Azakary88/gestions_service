@@ -1,0 +1,26 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h2>Ajouter un Produit ou un Service</h2>
+    <form method="post" class="mt-3">
+      {% csrf_token %}
+      
+      <!-- Affichage du champ type (Produit ou Service) -->
+      <div class="form-group">
+        <label for="id_type">Type</label>
+        {{ form.type }}
+      </div>
+      
+      <!-- Affichage des autres champs -->
+      {{ form.nom }}
+      {{ form.description }}
+      {{ form.prix_unitaire }}
+      
+      <button type="submit" class="btn btn-primary">Enregistrer</button>
+    </form>
+
+    <!-- Lien de retour vers la liste -->
+    <a href="{% url 'liste_produits_services' %}" class="btn btn-secondary mt-3">Retour à la liste</a>
+  </div>
+{% endblock %}

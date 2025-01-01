@@ -1,0 +1,28 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h2>Liste des Produits et Services</h2>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Prix</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in produits_services %}
+        <tr>
+          <td>{{ item.nom }}</td>
+          <td>{{ item.get_type_display }}</td> <!-- Affiche le type sous forme lisible -->
+          <td>{{ item.description }}</td>
+          <td>{{ item.prix_unitaire }} FCFA</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <a href="{% url 'ajouter_produit_ou_service' %}" class="btn btn-primary">Ajouter un Produit ou Service</a>
+  </div>
+{% endblock %}

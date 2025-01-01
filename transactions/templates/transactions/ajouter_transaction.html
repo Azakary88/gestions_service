@@ -1,0 +1,66 @@
+{% extends 'home/base.html' %}
+{% load custom_tags %}
+
+{% block content %}
+  <h2>Ajouter une transaction</h2>
+
+  <form method="post" id="transactionForm">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div>
+      <label for="{{ form.client.id_for_label }}">{{ form.client.label }}</label>
+      {{ form.client.errors }}
+      {{ form.client }}
+    </div>
+    <div>
+      <label for="{{ form.date_emission.id_for_label }}">{{ form.date_emission.label }}</label>
+      {{ form.date_emission.errors }}
+      {{ form.date_emission }}
+    </div>
+    <div>
+      <label for="{{ form.paye.id_for_label }}">{{ form.paye.label }}</label>
+      {{ form.paye.errors }}
+      {{ form.paye }}
+    </div>
+    <div>
+      <label>Lignes de facture:</label>
+      {% for ligne in lignes %}
+        <div>
+          <input type="checkbox" name="lignes" id="ligne_{{ ligne.id }}" value="{{ ligne.id }}" data-montant="{{ ligne.montant }}">
+          <label for="ligne_{{ ligne.id }}">{{ ligne.produit_service.nom }} - {{ ligne.quantite }} - {{ ligne.montant }}€</label>
+        </div>
+      {% endfor %}
+    </div>
+    <div>
+      <label for="{{ form.montant_total.id_for_label }}">{{ form.montant_total.label }}</label>
+      {{ form.montant_total.errors }}
+      {{ form.montant_total }}
+    </div>
+    <p>Montant total: <span id="montantTotal">0</span>€</p>
+    <button type="submit">Ajouter</button>
+  </form>
+
+  <script>
+    // Fonction pour mettre à jour le montant total
+    function updateMontantTotal() {
+      let checkboxes = document.querySelectorAll('input[name="lignes"]:checked');
+      let montantTotal = 0;
+      checkboxes.forEach((checkbox) => {
+        let montant = parseFloat(checkbox.getAttribute('data-montant'));
+        if (!isNaN(montant)) {
+          montantTotal += montant;
+        }
+      });
+      document.getElementById('montantTotal').innerText = montantTotal.toFixed(2);
+      document.querySelector('input[name="montant_total"]').value = montantTotal;  // Mettre à jour le champ caché
+    }
+
+    // Ajouter un écouteur d'événement sur les cases à cocher
+    document.querySelectorAll('input[name="lignes"]').forEach((checkbox) => {
+      checkbox.addEventListener('change', updateMontantTotal);
+    });
+
+    // Initialiser le montant total au chargement de la page
+    updateMontantTotal();
+  </script>
+{% endblock %}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facture #{{ facture.id }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .header, .footer {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table th, .table td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Secrétariat Professionnel</h1>
+        <p>Adresse : 123 Rue Exemple, Ville, Pays</p>
+        <p>Téléphone : +33 6 12 34 56 78</p>
+    </div>
+
+    <h2>Facture #{{ facture.id }}</h2>
+    <p><strong>Client :</strong> {{ facture.client.nom }}</p>
+    <p><strong>Date :</strong> {{ facture.date_emission }}</p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Désignation</th>
+                <th>Prix Unitaire</th>
+                <th>Quantité</th>
+                <th>Prix Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ligne in facture.lignes.all %}
+            <tr>
+                <td>{{ ligne.produit_service.nom }}</td>
+                <td>{{ ligne.produit_service.prix_unitaire }}€</td>
+                <td>{{ ligne.quantite }}</td>
+                <td>{{ ligne.montant }}€</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Montant Total : {{ facture.montant_total }}€</h3>
+
+    <!-- Lien de téléchargement de la facture en PDF -->
+    <a href="{% url 'telecharger_facture_pdf' facture.id %}" class="btn btn-primary">Télécharger la facture en PDF</a>
+
+    <a href="{% url 'liste_factures' %}">Retour à la liste des factures</a>
+    <[_{{{CITATION{{{_1{](https://github.com/js202005082300/Aide-m-moires/tree/c85c562d508c68fa086972462338ed773a25c8ac/JavaScript%2Fcours%2F002_hello_world%2Fnote.md)

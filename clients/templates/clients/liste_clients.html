@@ -1,0 +1,10 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+<h2>Liste des Clients</h2>
+<ul>
+    {% for client in clients %}
+        <li>{{ client.nom }} {{ client.prenom }} - {{ client.email }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
