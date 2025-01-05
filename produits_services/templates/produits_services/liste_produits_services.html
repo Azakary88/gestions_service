@@ -18,7 +18,7 @@
           <td>{{ item.nom }}</td>
           <td>{{ item.get_type_display }}</td> <!-- Affiche le type sous forme lisible -->
           <td>{{ item.description }}</td>
-          <td>{{ item.prix_unitaire }} FCFA</td>
+          <td>{{ item.prix_unitaire| floatformat:0 }} FCFA</td>
         </tr>
         {% endfor %}
       </tbody>

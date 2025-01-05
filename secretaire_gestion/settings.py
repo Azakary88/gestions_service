@@ -42,8 +42,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'produits_services',
     'clients', 
-    'transactions',
-    'home'
+    'home',
+    'factures',
 ]
 
 MIDDLEWARE = [

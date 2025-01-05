@@ -1,0 +1,28 @@
+{% extends 'home/base.html' %} <!-- On étend le template de base -->
+
+{% block title %}Page d'Accueil - Gestion Secrétariat{% endblock %}
+
+{% block content %}
+    <div class="hero">
+        <h1>Bienvenue dans Gestion Secrétariat</h1>
+        <p>Une plateforme simple et intuitive pour gérer vos clients, produits, services et factures.</p>
+    </div>
+
+    <div class="buttons-container">
+        <a href="{% url 'ajouter_produit_ou_service' %}" class="btn btn-primary btn-custom">
+            <i class="fas fa-plus-circle"></i> Ajouter une action
+        </a>
+        <a href="{% url 'liste_produits_services' %}" class="btn btn-primary btn-custom">
+            <i class="fas fa-list"></i> Produits & Services
+        </a>
+        <a href="{% url 'ajouter_client' %}" class="btn btn-primary btn-custom">
+            <i class="fas fa-user-plus"></i> Ajouter un Client
+        </a>
+        <a href="{% url 'factures:creer_facture' %}" class="btn btn-primary btn-custom">
+            <i class="fas fa-file-invoice"></i> Créer une Facture
+        </a>
+        <a href="{% url 'factures:liste_factures' %}" class="btn btn-primary btn-custom">
+            <i class="fas fa-file-alt"></i> Factures
+        </a>
+    </div>
+{% endblock %}

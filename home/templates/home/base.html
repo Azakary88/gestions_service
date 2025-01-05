@@ -4,34 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Gestion Secrétariat{% endblock %}</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Votre style personnalisé ici */
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">Gestion Secrétariat</a>
-        <div>
-          <a class="nav-link text-light" href="{% url 'ajouter_produit_ou_service' %}">Ajouter une action</a>
-          <a class="nav-link text-light" href="{% url 'liste_produits_services' %}">Liste des Produits et Services</a>
-          <a class="nav-link text-light" href="{% url 'ajouter_client' %}">Ajouter un Client</a>
-          <a class="nav-link text-light" href="{% url 'liste_transactions' %}">Transactions</a>
-          <a class="nav-link text-light" href="{% url 'liste_factures' %}">Voir la liste des factures</a>
-
-          {% if facture %}
-            <a href="{% url 'generer_factures' facture_id=facture.id %}">
-                Générer la facture PDF
-            </a>        
-          {% else %}
-              <p>Aucune facture disponible</p>
-          {% endif %} 
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">MAIGA GLOBAL SERVICE</a>
         </div>
-      </div>
     </nav>
-    <main class="container mt-5">
-      {% block content %}{% endblock %}
-    </main>
-    <footer class="text-center mt-5">
-      <p>&copy; 2024 Gestion Secrétariat - Tous droits réservés.</p>
+    <a href="{% url 'home' %}" class="btn btn-outline-secondary">Accueil</a>
+    <div class="container">
+        {% block content %} <!-- Contenu spécifique aux pages -->
+        {% endblock %}
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Gestion Secrétariat - Tous droits réservés.</p>
     </footer>
 </body>
+<style>
+  /* Assure que le body occupe toute la hauteur de la page */
+  html, body {
+      height: 100%;
+      margin: 0;
+  }
+
+  /* Le conteneur principal doit remplir tout l'espace disponible */
+  .container {
+      min-height: calc(100vh - 50px); /* Ajuste selon la hauteur de ton footer */
+  }
+
+  /* Fixe le pied de page en bas */
+  footer {
+      height: 50px; /* Hauteur du footer */
+      background-color: #FFD700; /* Jaune or pour le footer */
+      color: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      bottom: 0;
+      width: 100%;
+  }
+  /* Style pour la section hero */
+  .hero {
+        background: linear-gradient(90deg, #FFD700, #FFC107); /* Dégradé jaune or */
+        color: rgb(27, 30, 247); /* Texte blanc pour le contraste */
+        text-align: center; /* Centrer le contenu */
+        padding: 50px 20px; /* Espacement intérieur */
+        border-radius: 10px; /* Coins arrondis */
+        margin: 30px 0; /* Espacement extérieur */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Ombre pour donner de la profondeur */
+    }
+
+    /* Style pour le titre */
+    .hero h1 {
+        font-size: 2.5rem; /* Taille du texte du titre */
+        font-weight: bold; /* Texte en gras */
+        margin-bottom: 20px; /* Espacement sous le titre */
+    }
+
+    /* Style pour le paragraphe */
+    .hero p {
+        font-size: 1.2rem; /* Taille du texte du paragraphe */
+        line-height: 1.6; /* Hauteur de ligne pour une meilleure lisibilité */
+        margin: 0; /* Supprime les marges par défaut */
+    }
+</style>
+
 </html>

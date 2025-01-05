@@ -1,0 +1,65 @@
+{% extends "home/base.html" %}
+{% block content %}
+<h1>Créer une nouvelle facture</h1>
+<form method="post" id="factureForm">
+    {% csrf_token %}
+    {{ facture_form.as_p }}
+    
+    <h3>Lignes de Facture</h3>
+    {{ ligne_formset.management_form }}
+    
+    <div id="formset-container">
+        {% for form in ligne_formset %}
+            <div class="formset-row">
+                <table>
+                    <tr>
+                        <td>{{ form.produit_service.label }}</td>
+                        <td>{{ form.produit_service }}</td>
+                        <td>{{ form.quantite.label }}</td>
+                        <td>{{ form.quantite }}</td>
+                        <td>{{ form.prix_unitaire.label| floatformat:0 }}</td>
+                        <td>{{ form.prix_unitaire| floatformat:0 }}</td>
+                    </tr>
+                </table>
+                <button type="button" class="remove-row">Supprimer</button>
+            </div>
+        {% endfor %}
+    </div>
+
+    <button type="button" id="add-row" class="btn btn-secondary">Ajouter une ligne</button>
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+</form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const formsetContainer = document.getElementById("formset-container");
+        const addRowButton = document.getElementById("add-row");
+
+        // Ajouter une nouvelle ligne au formulaire
+        addRowButton.addEventListener("click", function () {
+            const formCount = document.querySelectorAll(".formset-row").length;
+            const newFormHtml = formsetContainer.querySelector(".formset-row:last-child").outerHTML;
+
+            // Remplacer les indices dans le formulaire
+            const newForm = newFormHtml.replace(/-__prefix__-/g, `-${formCount}-`);
+            formsetContainer.insertAdjacentHTML("beforeend", newForm);
+
+            // Mettre à jour le nombre total de formulaires
+            const totalForms = document.getElementById("id_form-TOTAL_FORMS");
+            totalForms.value = formCount + 1;
+        });
+
+        // Supprimer une ligne
+        formsetContainer.addEventListener("click", function (e) {
+            if (e.target.classList.contains("remove-row")) {
+                e.target.parentElement.remove();
+
+                // Mettre à jour le nombre total de formulaires
+                const formCount = document.querySelectorAll(".formset-row").length;
+                const totalForms = document.getElementById("id_form-TOTAL_FORMS");
+                totalForms.value = formCount;
+            }
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,184 @@
+{% extends "home/base.html" %}
+
+{% block content %}
+<style>
+    .facture-container {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        font-family: Arial, sans-serif;
+        border: 1px solid #ddd;
+        padding: 20px;
+        background-color: #fff;
+    }
+    .entete {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    .entete .logo {
+        flex: 1;
+        text-align: left;
+    }
+    .entete .logo img {
+        max-width: 150px;
+    }
+    .entete .centre {
+        flex: 2;
+        text-align: center;
+    }
+    .entete .centre h1 {
+        font-size: 28px;
+        font-weight: bold;
+        color: blue;
+        margin: 0;
+    }
+    .entete .droite {
+        flex: 1;
+        text-align: right;
+    }
+    .separateur {
+        border-top: 2px solid #000;
+        margin: 20px 0;
+    }
+    .details {
+        position: relative;
+        margin-bottom: 20px;
+    }
+    .details .date {
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-size: 14px;
+        color: #555;
+    }
+    .details .numero-facture {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 16px;
+        font-weight: bold;
+    }
+    .details .client-responsable {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        font-size: 14px;
+    }
+    .details th, .details td {
+        padding: 8px;
+        text-align: left;
+    }
+    .details th {
+        background-color: #f5f5f5;
+    }
+    .footer {
+        margin-top: 40px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+    }
+    .footer .signature {
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    /* Styles spécifiques pour l'impression */
+    @media print {
+        body * {
+            visibility: hidden; /* Masquer tous les éléments */
+        }
+        .facture-container, .facture-container * {
+            visibility: visible; /* Afficher uniquement la facture */
+        }
+        .facture-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 21cm; /* Largeur A4 */
+            height: auto;
+            padding: 20px;
+            margin: 0;
+            border: none;
+        }
+        a {
+            display: none; /* Masquer le bouton d'impression */
+        }
+    }
+</style>
+
+<div class="facture-container">
+    <!-- Entête de la facture -->
+    <div class="entete">
+        <!-- Logo à gauche -->
+        <div class="logo">
+            <img src="{{ entreprise_logo_url }}" alt="Logo de l'entreprise">
+        </div>
+
+        <!-- Nom et services au centre -->
+        <div class="centre">
+            <h1>{{ entreprise_nom }}</h1>
+            <p class="services">{{ entreprise_services }}</p>
+        </div>
+
+        <!-- Contacts à droite -->
+        <div class="droite">
+            <p>
+                {{ entreprise_adresse }}<br>
+                {{ entreprise_telephone }}<br>
+                {{ entreprise_email }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Séparateur -->
+    <div class="separateur"></div>
+
+    <!-- Détails de la facture -->
+    <div class="details">
+        <!-- Date en haut à droite -->
+        <p class="date">Ouahigouya le : {{ facture.date_emission|date:"d/m/Y" }}</p><br><br>
+
+        <!-- Numéro de la facture au centre -->
+        <p class="numero-facture">Numéro de Facture: {{ facture.numero_facture }}</p>
+
+        <!-- Nom du client et responsable -->
+        <div class="client-responsable">
+            <p><strong>Doit à :</strong> {{ facture.client.nom }}</p>
+        </div>
+
+        <!-- Tableau des produits/services -->
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Quantité</th>
+                    <th>Prix Unitaire</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ligne in facture.lignes.all %}
+                    <tr>
+                        <td>{{ ligne.produit_service.nom }}</td>
+                        <td>{{ ligne.quantite }}</td>
+                        <td>{{ ligne.prix_unitaire|floatformat:0 }}</td>
+                        <td>{{ ligne.sous_total|floatformat:0 }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h6>Arrêté la présente facture définitive à la somme de : {{ facture.montant_total|floatformat:0 }} FCFA</h6>
+    </div>
+
+    <!-- Bas de la facture -->
+    <div class="footer">
+        <p class="signature">La Directrice: <br><br><br><br>{{ responsable_nom }}</p>
+    </div>
+</div>
+
+<!-- Bouton d'impression -->
+<a href="#" onclick="window.print()">Imprimer la Facture</a>
+{% endblock %}
