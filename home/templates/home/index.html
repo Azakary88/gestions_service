@@ -4,25 +4,51 @@
 
 {% block content %}
     <div class="hero">
-        <h1>Bienvenue dans Gestion Secrétariat</h1>
-        <p>Une plateforme simple et intuitive pour gérer vos clients, produits, services et factures.</p>
+        <h1>Bienvenue dans MAIGA GLOBAL SERVICE</h1>
+        <p>AU SERVICE DU BIEN ETRE DE LA CLIENTELLE</p>
     </div>
 
-    <div class="buttons-container">
-        <a href="{% url 'ajouter_produit_ou_service' %}" class="btn btn-primary btn-custom">
-            <i class="fas fa-plus-circle"></i> Ajouter une action
-        </a>
-        <a href="{% url 'liste_produits_services' %}" class="btn btn-primary btn-custom">
-            <i class="fas fa-list"></i> Produits & Services
-        </a>
-        <a href="{% url 'ajouter_client' %}" class="btn btn-primary btn-custom">
-            <i class="fas fa-user-plus"></i> Ajouter un Client
-        </a>
-        <a href="{% url 'factures:creer_facture' %}" class="btn btn-primary btn-custom">
-            <i class="fas fa-file-invoice"></i> Créer une Facture
-        </a>
-        <a href="{% url 'factures:liste_factures' %}" class="btn btn-primary btn-custom">
-            <i class="fas fa-file-alt"></i> Factures
-        </a>
+    <div class="buttons-container text-center">
+        <div class="row">
+            <!-- Ajouter une action -->
+            <div class="col-md-3 mb-4">
+                <a href="{% url 'ajouter_produit_ou_service' %}" class="btn btn-secondary btn-custom">
+                    <i class="fas fa-tasks fa-3x"></i>
+                    <p class="mt-2">Ajouter une action</p>
+                </a>
+            </div>
+
+            <!-- Produits & Services -->
+            <div class="col-md-3 mb-4">
+                <a href="{% url 'liste_produits_services' %}" class="btn btn-secondary btn-custom">
+                    <i class="fas fa-box fa-3x"></i>
+                    <p class="mt-2">Produits & Services</p>
+                </a>
+            </div>
+
+            <!-- Ajouter un Client -->
+            <div class="col-md-3 mb-4">
+                <a href="{% url 'ajouter_client' %}" class="btn btn-secondary btn-custom">
+                    <i class="fas fa-user-plus fa-3x"></i>
+                    <p class="mt-2">Ajouter un Client</p>
+                </a>
+            </div>
+
+            <!-- Créer une Facture -->
+            <div class="col-md-3 mb-4">
+                <a href="{% url 'factures:creer_facture' %}" class="btn btn-secondary btn-custom">
+                    <i class="fas fa-file-invoice-dollar fa-3x"></i>
+                    <p class="mt-2">Créer une Facture</p>
+                </a>
+            </div>
+
+            <!-- Factures -->
+            <div class="col-md-3 mb-4">
+                <a href="{% url 'factures:liste_factures' %}" class="btn btn-secondary btn-custom">
+                    <i class="fas fa-file-alt fa-3x"></i>
+                    <p class="mt-2">Factures</p>
+                </a>
+            </div>
+        </div>
     </div>
 {% endblock %}

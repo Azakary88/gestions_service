@@ -7,7 +7,84 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Votre style personnalisé ici */
+        /* Styles globaux */
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        .container {
+            min-height: calc(100vh - 100px); /* Ajuste la hauteur pour le footer */
+            padding-bottom: 50px; /* Espace pour éviter que le contenu ne chevauche le footer */
+        }
+
+        footer {
+            height: 50px;
+            background-color: #FFD700; /* Jaune or */
+            color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Styles pour la section hero */
+        .hero {
+            background: linear-gradient(90deg, rgb(27, 30, 247), rgb(27, 30, 247)); /* Dégradé jaune or */
+            color: #FFD700; /* Couleur Texte  */
+            text-align: center;
+            padding: 50px 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Ombre légère */
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Styles personnalisés pour les boutons */
+        .btn-custom {
+           /* margin: 5px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s ease; /* Animation au survol */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            background-color: rgb(27, 30, 247); /* Changement de couleur au survol */
+            transform: translateY(-5px); /* Effet de levée au survol */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Ombre au survol */
+        }
+
+        .btn-custom i {
+            color: #FFD700; /* Couleur des icônes */
+            margin-bottom: 10px;
+        }
+
+        .btn-custom p {
+            color: white; /* Couleur du texte */
+            font-size: 1.1rem;
+            margin: 0;
+        }
     </style>
 </head>
 <body>
@@ -26,54 +103,4 @@
         <p>&copy; 2024 Gestion Secrétariat - Tous droits réservés.</p>
     </footer>
 </body>
-<style>
-  /* Assure que le body occupe toute la hauteur de la page */
-  html, body {
-      height: 100%;
-      margin: 0;
-  }
-
-  /* Le conteneur principal doit remplir tout l'espace disponible */
-  .container {
-      min-height: calc(100vh - 50px); /* Ajuste selon la hauteur de ton footer */
-  }
-
-  /* Fixe le pied de page en bas */
-  footer {
-      height: 50px; /* Hauteur du footer */
-      background-color: #FFD700; /* Jaune or pour le footer */
-      color: black;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      bottom: 0;
-      width: 100%;
-  }
-  /* Style pour la section hero */
-  .hero {
-        background: linear-gradient(90deg, #FFD700, #FFC107); /* Dégradé jaune or */
-        color: rgb(27, 30, 247); /* Texte blanc pour le contraste */
-        text-align: center; /* Centrer le contenu */
-        padding: 50px 20px; /* Espacement intérieur */
-        border-radius: 10px; /* Coins arrondis */
-        margin: 30px 0; /* Espacement extérieur */
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Ombre pour donner de la profondeur */
-    }
-
-    /* Style pour le titre */
-    .hero h1 {
-        font-size: 2.5rem; /* Taille du texte du titre */
-        font-weight: bold; /* Texte en gras */
-        margin-bottom: 20px; /* Espacement sous le titre */
-    }
-
-    /* Style pour le paragraphe */
-    .hero p {
-        font-size: 1.2rem; /* Taille du texte du paragraphe */
-        line-height: 1.6; /* Hauteur de ligne pour une meilleure lisibilité */
-        margin: 0; /* Supprime les marges par défaut */
-    }
-</style>
-
 </html>
