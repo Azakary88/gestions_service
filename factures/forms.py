@@ -12,11 +12,10 @@ class FactureForm(forms.ModelForm):
         model = Facture
         fields = ['client']
 
-# Formset pour les lignes de facture
 LigneFactureFormSet = inlineformset_factory(
     Facture,
     LigneFacture,
     fields=['produit_service', 'quantite'],
-    extra=1,  # Nombre de lignes supplémentaires
-    can_delete=True  # Permettre la suppression des lignes
+    extra=2,
+    can_delete=True
 )

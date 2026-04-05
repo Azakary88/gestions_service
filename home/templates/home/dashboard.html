@@ -1,0 +1,82 @@
+{% extends "home/base.html" %}
+
+{% block content %}
+
+<style>
+.card {
+    border-radius: 10px;
+    transition: transform 0.3s;
+}
+.card:hover {
+    transform: scale(1.05);
+}
+</style>
+
+<div class="container mt-4">
+    <h2 class="mb-4">
+        Bienvenue {{ user.username|title }} 👋
+    </h2>
+
+    <h2 class="mb-4">📊 Tableau de bord</h2>
+
+    <div class="row">
+
+        <div class="col-md-3">
+            <div class="card text-white bg-primary p-3">
+                <h5>Factures</h5>
+                <h2>{{ total_factures }}</h2>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-white bg-success p-3">
+                <h5>Clients</h5>
+                <h2>{{ total_clients }}</h2>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-white bg-warning p-3">
+                <h5>Produits</h5>
+                <h2>{{ total_produits }}</h2>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-white bg-dark p-3">
+                <h5>Chiffre d'affaires</h5>
+                <h2>{{ chiffre_affaires }} FCFA</h2>
+            </div>
+        </div>
+
+    </div>
+    <div class="row mt-4">
+
+        <div class="col-md-3">
+            <a href="{% url 'factures:creer_facture' %}" class="btn btn-primary w-100">
+                ➕ Nouvelle Facture
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="{% url 'ajouter_client' %}" class="btn btn-success w-100">
+                👤 Nouveau Client
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="{% url 'liste_produits_services' %}" class="btn btn-warning w-100">
+                📦 Produits
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="{% url 'factures:liste_factures' %}" class="btn btn-dark w-100">
+                📄 Factures
+            </a>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+# Projet Gestion Secrétaire
+
+## Description
+Application de gestion...
+
+## Technologies
+- Django
+- PostgreSQL
+- Docker
+
+## Installation
+...
+
+## Lancement
+docker-compose up --build

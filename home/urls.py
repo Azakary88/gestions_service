@@ -3,5 +3,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.index, name='home'),  # La vue pour l'URL racine
+    path('', views.dashboard, name='home'),  # 🔥 dashboard = accueil
+    path('accueil/', views.index, name='index'),  # optionnel
 ]

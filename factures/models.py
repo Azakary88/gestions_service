@@ -1,3 +1,5 @@
+# models.py
+
 from django.db import models
 from clients.models import Client
 from produits_services.models import ProduitOuService
