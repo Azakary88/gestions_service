@@ -1,69 +1,176 @@
-
 {% extends "home/base.html" %}
 {% block content %}
-<h1>Créer une nouvelle facture</h1>
-<form method="post" id="factureForm">
-    {% csrf_token %}
-    {{ facture_form.as_p }}
-    
-    <h3>Lignes de Facture</h3>
-    {{ ligne_formset.management_form }}
-    
-    <div id="formset-container">
-        {% for form in ligne_formset %}
-            <div class="formset-row">
-                {{ form.id }}
-                {{ form.produit_service.label }} {{ form.produit_service }}
-                {{ form.quantite.label }} {{ form.quantite }}
-                {{ form.DELETE }} 
-                <button type="button" class="remove-row">Supprimer</button>
+
+<style>
+    .form-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 25px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.formset-row {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background: #f8f9fa;
+}
+.btn {
+    font-size: 14px;
+}
+.remove-row {
+    margin-top: 32px;
+}
+
+</style>
+
+<h1 id="titre-doc">Créer une facture</h1>
+
+<body style="background-color:#f4f6f9;">
+    <div class="form-container">
+        <form method="post" id="factureForm">
+            {% csrf_token %}
+
+            <!-- 🔷 INFOS PRINCIPALES -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label><strong>Client</strong></label>
+                    {{ facture_form.client }}
+                </div>
+
+                <div class="col-md-6">
+                    <label><strong>Type de document</strong></label>
+                    {{ facture_form.type_document }}
+                </div>
             </div>
-        {% endfor %}
+
+            <hr>
+
+            <!-- 🔷 LIGNES -->
+            <h4>Produits / Services</h4>
+            {{ ligne_formset.management_form }}
+
+            <div id="formset-container">
+                {% for form in ligne_formset %}
+                <div class="formset-row row align-items-end">
+
+                    <div class="col-md-6">
+                        <label>Produit</label>
+                        {{ form.produit_service }}
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Quantité</label>
+                        {{ form.quantite }}
+                    </div>
+
+                    <div class="col-md-3">
+                        <button type="button" class="remove-row btn btn-danger w-100">
+                            Supprimer
+                        </button>
+                    </div>
+
+                    {{ form.id }}
+                    {{ form.DELETE }}
+
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- 🔷 FORMULAIRE VIDE -->
+            <div id="empty-form" style="display:none;">
+                <div class="formset-row row align-items-end">
+
+                    <div class="col-md-6">
+                        <label>Produit</label>
+                        {{ ligne_formset.empty_form.produit_service }}
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Quantité</label>
+                        {{ ligne_formset.empty_form.quantite }}
+                    </div>
+
+                    <div class="col-md-3">
+                        <button type="button" class="remove-row btn btn-danger w-100">
+                            Supprimer
+                        </button>
+                    </div>
+
+                    {{ ligne_formset.empty_form.id }}
+                    {{ ligne_formset.empty_form.DELETE }}
+
+                </div>
+            </div>
+
+            <!-- 🔷 ACTIONS -->
+            <div class="d-flex justify-content-between mt-4">
+
+                <button type="button" id="add-row" class="btn btn-secondary">
+                    ➕ Ajouter une ligne
+                </button>
+
+                <button type="submit" class="btn btn-primary">
+                    💾 Enregistrer
+                </button>
+
+            </div>
+
+        </form>
     </div>
+</body>
 
-    <div id="empty-form" style="display:none;">
-        <div class="formset-row">
-            {{ ligne_formset.empty_form.id }}
-            {{ ligne_formset.empty_form.produit_service.label }} {{ ligne_formset.empty_form.produit_service }}
-            {{ ligne_formset.empty_form.quantite.label }} {{ ligne_formset.empty_form.quantite }}
-            {{ ligne_formset.empty_form.DELETE }}
-            <button type="button" class="remove-row">Supprimer</button>
-        </div>
-    </div>
-
-    <button type="button" id="add-row" class="btn btn-secondary">Ajouter une ligne</button>
-    <button type="submit" class="btn btn-primary">Enregistrer</button>
-</form>
-
+<!-- SCRIPT FORMSET -->
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const addButton = document.getElementById("add-row");
-        const container = document.getElementById("formset-container");
-        const totalForms = document.querySelector('[name$="-TOTAL_FORMS"]');
-        const emptyForm = document.getElementById("empty-form").innerHTML;
+document.addEventListener("DOMContentLoaded", function () {
 
-        addButton.addEventListener("click", function () {
-            let formIndex = parseInt(totalForms.value);
+    const addButton = document.getElementById("add-row");
+    const container = document.getElementById("formset-container");
+    const totalForms = document.querySelector('[name$="-TOTAL_FORMS"]');
+    const emptyForm = document.getElementById("empty-form").innerHTML;
 
-            let newForm = emptyForm.replace(/__prefix__/g, formIndex);
-            container.insertAdjacentHTML("beforeend", newForm);
+    addButton.addEventListener("click", function () {
+        let formIndex = parseInt(totalForms.value);
 
-            totalForms.value = formIndex + 1;
-        });
+        let newForm = emptyForm.replace(/__prefix__/g, formIndex);
+        container.insertAdjacentHTML("beforeend", newForm);
 
-        container.addEventListener("click", function (e) {
-            if (e.target.classList.contains("remove-row")) {
-                let row = e.target.closest(".formset-row");
-
-                let deleteInput = row.querySelector("input[type=checkbox]");
-                if (deleteInput) {
-                    deleteInput.checked = true;
-                    row.style.display = "none";
-                } else {
-                    row.remove();
-                }
-            }
-        });
+        totalForms.value = formIndex + 1;
     });
+
+    container.addEventListener("click", function (e) {
+        if (e.target.classList.contains("remove-row")) {
+            let row = e.target.closest(".formset-row");
+
+            let deleteInput = row.querySelector("input[type=checkbox]");
+            if (deleteInput) {
+                deleteInput.checked = true;
+                row.style.display = "none";
+            } else {
+                row.remove();
+            }
+        }
+    });
+
+    // 🎯 TITRE DYNAMIQUE
+    const select = document.querySelector("select[name='type_document']");
+    const titre = document.getElementById("titre-doc");
+
+    function updateTitle() {
+        if (select.value === "facture") {
+            titre.innerText = "Créer une Facture";
+        } else if (select.value === "proforma") {
+            titre.innerText = "Créer une Facture Proforma";
+        } else if (select.value === "livraison") {
+            titre.innerText = "Créer un Bordereau de Livraison";
+        }
+    }
+
+    select.addEventListener("change", updateTitle);
+    updateTitle();
+});
 </script>
+
 {% endblock %}

@@ -106,6 +106,26 @@
             display: none; /* Masquer le bouton d'impression */
         }
     }
+
+    .footer {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    }
+
+    .signature {
+        text-align: center;
+        width: 45%;
+    }
+    .titre-document {
+        text-align: center;
+        font-weight: bold;
+        font-size: 24px;
+        margin: 25px 0;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        text-decoration: underline;
+    }
 </style>
 
 <div class="facture-container">
@@ -141,11 +161,29 @@
         <p class="date">Ouahigouya le : {{ facture.date_emission|date:"d/m/Y" }}</p><br><br>
 
         <!-- Numéro de la facture au centre -->
-        <p class="numero-facture">Numéro de Facture: {{ facture.numero_facture }}</p>
+                    <h4 class="titre-document">
+                    {% if facture.type_document == 'facture' %}
+                        Facture Définitive N° {{ facture.numero_facture|cut:"F-" }}
+                    {% elif facture.type_document == 'proforma' %}
+                        Facture Proforma N° {{ facture.numero_facture|cut:"PF-" }}
+                    {% elif facture.type_document == 'livraison' %}
+                        Bordereau de Livraison N° {{ facture.numero_facture|cut:"BL-" }}
+                    {% endif %}
+                    </h4>
 
         <!-- Nom du client et responsable -->
         <div class="client-responsable">
-            <p><strong>Doit à :</strong> {{ facture.client.nom }}</p>
+            <p>
+            <strong>
+            {% if facture.type_document == 'livraison' %}
+                Livré à :
+            {% else %}
+                Doit à :
+            {% endif %}
+            </strong>
+            {{ facture.client.nom }} {{ facture.client.prenom }}
+            </p>
+            
         </div>
 
         <!-- Tableau des produits/services -->
@@ -154,28 +192,67 @@
                 <tr>
                     <th>Description</th>
                     <th>Quantité</th>
-                    <th>Prix Unitaire</th>
-                    <th>Total</th>
+
+                    {% if facture.type_document != 'livraison' %}
+                        <th>Prix Unitaire</th>
+                        <th>Total</th>
+                    {% else %}
+                        <th>Observation</th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
                 {% for ligne in facture.lignes.all %}
-                    <tr>
-                        <td>{{ ligne.produit_service.nom }}</td>
-                        <td>{{ ligne.quantite }}</td>
+                <tr>
+                    <td>{{ ligne.produit_service.nom }}</td>
+                    <td>{{ ligne.quantite }}</td>
+
+                    {% if facture.type_document != 'livraison' %}
                         <td>{{ ligne.prix_unitaire|floatformat:0 }}</td>
                         <td>{{ ligne.sous_total|floatformat:0 }}</td>
-                    </tr>
+                    {% else %}
+                        <td>{{ ligne.observation|default:" " }}</td>
+                    {% endif %}
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
+        <hr>
+        {% if facture.type_document == 'facture' %}
+            <h6>
+            Arrêté la présente facture définitive à la somme de :
+            {{ facture.montant_total|floatformat:0 }} FCFA
+            </h6>
 
-        <h6>Arrêté la présente facture définitive à la somme de : {{ facture.montant_total|floatformat:0 }} FCFA</h6>
+            {% elif facture.type_document == 'proforma' %}
+            <h6>
+            Arrêté la présente facture proforma à la somme de :
+            {{ facture.montant_total|floatformat:0 }} FCFA
+            </h6>
+        {% endif %}
     </div>
 
     <!-- Bas de la facture -->
     <div class="footer">
-        <p class="signature">La Directrice: <br><br><br><br>{{ responsable_nom }}</p>
+
+        {% if facture.type_document == 'livraison' %}
+            <div class="signature">
+                Le Réceptionniste<br><br><br><br>
+                ____________________
+            </div>
+
+            <div class="signature">
+                La Directrice<br><br><br><br>
+                {{ responsable_nom }}
+            </div>
+
+        {% else %}
+            <div class="signature">
+                La Directrice<br><br><br><br>
+                {{ responsable_nom }}
+            </div>
+        {% endif %}
+
     </div>
 </div>
 

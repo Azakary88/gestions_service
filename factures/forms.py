@@ -10,7 +10,7 @@ class LigneFactureForm(forms.ModelForm):
 class FactureForm(forms.ModelForm):
     class Meta:
         model = Facture
-        fields = ['client']
+        fields = ['client', 'type_document']
 
 LigneFactureFormSet = inlineformset_factory(
     Facture,
